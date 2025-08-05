@@ -30,7 +30,10 @@ async function bootstrap() {
     options: {
       client: {
         brokers: [`${kafkaHost}:${kafkaPort}`],
-      }
+      },
+      consumer: {
+        groupId: 'logs-consumer-group',
+      },
     },
   })
 

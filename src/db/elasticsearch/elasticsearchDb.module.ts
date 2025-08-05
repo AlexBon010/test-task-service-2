@@ -1,6 +1,7 @@
 import { Module, OnModuleInit } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { ElasticsearchModule, ElasticsearchService } from "@nestjs/elasticsearch";
+import { ElasticsearchDbService } from './elasticsearch-db/elasticsearch-db.service';
 
 @Module({
     imports: [ElasticsearchModule.registerAsync({
@@ -10,10 +11,13 @@ import { ElasticsearchModule, ElasticsearchService } from "@nestjs/elasticsearch
             const port = configService.get<number>('ELASTICSEARCH_PORT')!;
             return {
                 node: `http://${host}:${port}`,
+
+
             };
         },
     })],
-    providers: [],
+    providers: [ElasticsearchDbService],
+    exports: [ElasticsearchDbService],
 })
 export class ElasticsearchDbModule implements OnModuleInit {
     constructor(private readonly elasticsearchService: ElasticsearchService) { }
