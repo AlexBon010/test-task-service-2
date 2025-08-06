@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
+
 import { ILog } from '../interfaces/log.interface';
-import { ElasticsearchDbService } from 'src/db/elasticsearch/elasticsearch-db/elasticsearch-db.service';
+import { ElasticsearchDbService } from '@db';
 
 @Injectable()
 export class LogsService {

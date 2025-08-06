@@ -4,7 +4,9 @@ import { ConfigService } from '@nestjs/config';
 
 import { LogsService } from './logs/logs.service';
 import { LogsController } from './logs/logs.controller';
-import { ElasticsearchDbModule } from 'src/db/elasticsearch/elasticsearchDb.module';
+import { ElasticsearchDbModule } from '@db';
+import { FetchingLogsController } from './fetching-logs/fetching-logs.controller';
+import { FetchingLogsService } from './fetching-logs/fetching-logs/fetching-logs.service';
 
 @Global()
 @Module({
@@ -23,28 +25,22 @@ import { ElasticsearchDbModule } from 'src/db/elasticsearch/elasticsearchDb.modu
                         },
                         consumer: {
                             groupId: 'logs-consumer-group',
+                            sessionTimeout: 30000,
+                            heartbeatInterval: 3000,
+                            rebalanceTimeout: 60000,
+                            maxBytesPerPartition: 1048576,
+                            maxWaitTimeInMs: 5000,
+                        },
+                        run: {
+                            autoCommit: true,
+                            commitInterval: 1000,
                         },
                     },
                 }),
             },
         ]),
-        // ClientsModule.register([
-        //     {
-        //         name: 'LOGS_SERVICE',
-        //         transport: Transport.KAFKA,
-        //         options: {
-        //             client: {
-        //                 clientId: 'logs-consumer',
-        //                 brokers: [`localhost:9092`],
-        //             },
-        //             consumer: {
-        //                 groupId: 'logs-consumer-group',
-        //             },
-        //         },
-        //     },
-        // ]),
     ],
-    controllers: [LogsController],
-    providers: [LogsService],
+    controllers: [LogsController, FetchingLogsController],
+    providers: [LogsService, FetchingLogsService],
 })
 export class LogsModule { }

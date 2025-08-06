@@ -1,6 +1,7 @@
 import { Controller, Inject, OnModuleInit } from '@nestjs/common';
-import { LogsService } from './logs.service';
 import { ClientKafka, EventPattern, Payload } from '@nestjs/microservices';
+
+import { LogsService } from './logs.service';
 
 @Controller("logs")
 export class LogsController implements OnModuleInit {

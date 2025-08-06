@@ -1,6 +1,6 @@
 export interface ILog {
+    level: 'info' | 'warn' | 'error';
     message: string;
-    level: string;
     timestamp: string;
     service: string;
 }
