@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { RedisModule } from '@nestjs-modules/ioredis'
 import { ConfigService } from '@nestjs/config';
+import { MetricsService } from './metrics/metrics.service';
 
 @Module({
     imports: [
@@ -11,7 +12,7 @@ import { ConfigService } from '@nestjs/config';
                 const username = configService.get<string>('REDIS_USERNAME')!
                 const password = configService.get<string>('REDIS_PASSWORD')!
 
-                const url = `redis://${username}:${password}@${host}:${port}`
+                const url = `redis://${host}:${port}`
 
                 return {
                     url,
@@ -21,5 +22,7 @@ import { ConfigService } from '@nestjs/config';
             inject: [ConfigService],
         }),
     ],
+    providers: [MetricsService],
+    exports: [MetricsService],
 })
 export class RedistimeseriesModule { }
