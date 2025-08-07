@@ -25,7 +25,6 @@ export class ApiEventsService {
             'GET:/api/files/getDataInFile',
             'response_time'
         );
-        console.log(data);
 
         const doc = new jsPDF() as jsPDFWithPlugin;
         doc.setFontSize(16);
@@ -87,6 +86,15 @@ export class ApiEventsService {
     }
 
     private addMetricsTable(doc: jsPDFWithPlugin, data: MetricDataPoint[], startY: number): void {
+        if (!data || data.length === 0) {
+            autoTable(doc, {
+                head: [['Metric', 'Value']],
+                body: [['No data available', '—']],
+                startY,
+                styles: { fontSize: 10 }
+            });
+            return;
+        }
         let sum = 0;
         let maxResponseTime = data[0].value;
         let minResponseTime = data[0].value;
@@ -96,7 +104,6 @@ export class ApiEventsService {
             if (value > maxResponseTime) maxResponseTime = value;
             if (value < minResponseTime) minResponseTime = value;
         });
-
         const avgResponseTime = sum / data.length;
 
         autoTable(doc, {

@@ -7,13 +7,12 @@ export enum LogLevel {
     ERROR = 'error',
 }
 
-
 export class GetLogsDto {
-    @ApiProperty({ description: 'Start date', example: '2021-01-01' })
+    @ApiProperty({ description: 'Start date', example: '2025-01-01' })
     @IsDateString()
     startDate: string;
 
-    @ApiProperty({ description: 'End date', example: '2021-01-01' })
+    @ApiProperty({ description: 'End date', example: '2026-01-01' })
     @IsDateString()
     endDate: string;
 

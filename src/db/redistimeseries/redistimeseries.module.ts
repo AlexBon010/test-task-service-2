@@ -8,9 +8,7 @@ import { MetricsService } from './metrics/metrics.service';
         RedisModule.forRootAsync({
             useFactory: (configService: ConfigService) => {
                 const host = configService.get<string>('REDIS_HOST')!
-                const port = configService.get<number>('REDIS_PORT_EXTERNAL')!
-                const username = configService.get<string>('REDIS_USERNAME')!
-                const password = configService.get<string>('REDIS_PASSWORD')!
+                const port = configService.get<number>('REDIS_PORT')!
 
                 const url = `redis://${host}:${port}`
 

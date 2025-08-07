@@ -15,12 +15,10 @@ export class MetricsService {
         metric: MetricKey,
     ): Promise<{ timestamp: number, value: number }[]> {
         try {
-
             const now = new Date();
             const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
             const composedKey = `metrics:${endpoint}:${metric}`;
-            console.log(composedKey);
             const result = await this.redis.call(
                 'TS.RANGE',
                 composedKey,

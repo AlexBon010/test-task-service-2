@@ -20,11 +20,12 @@ import { FetchingLogsService } from './fetching-logs/fetching-logs/fetching-logs
                     transport: Transport.KAFKA,
                     options: {
                         client: {
-                            clientId: 'logs-consumer',
-                            brokers: [`${configService.get<string>('KAFKA_HOST')}:${configService.get<number>('KAFKA_PORT_EXTERNAL')}`],
+                            clientId: configService.get<string>('KAFKA_CLIENT_ID'),
+                            brokers: [`${configService.get<string>('KAFKA_HOST')}:${configService.get<number>('KAFKA_PORT')}`],
                         },
                         consumer: {
-                            groupId: 'logs-consumer-group',
+                            groupId: configService.get<string>('KAFKA_CONSUMER_GROUP_ID')!,
+                            allowAutoTopicCreation: true,
                             sessionTimeout: 30000,
                             heartbeatInterval: 3000,
                             rebalanceTimeout: 60000,

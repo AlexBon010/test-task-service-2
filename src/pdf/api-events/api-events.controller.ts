@@ -1,6 +1,9 @@
-import { Controller, Get, Header, StreamableFile } from '@nestjs/common';
+import { Controller, Get, Header, Res } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
+
 import { ApiEventsService } from './api-events/api-events.service';
+import { Readable } from 'stream';
 
 @ApiTags('API Events')
 @Controller('apiEvents')
@@ -11,11 +14,15 @@ export class ApiEventsController {
     @Header('Content-Type', 'application/pdf')
     @ApiOperation({ summary: 'Get API response time report as PDF' })
     @ApiResponse({ status: 200, description: 'Returns PDF report with response time statistics' })
-    async getApiEventsReport(): Promise<StreamableFile> {
+    async getApiEventsReport(@Res() res: Response) {
         const buffer = await this.apiEventsService.generatePdfReport();
         const date = new Date().toISOString().split('T')[0];
-        return new StreamableFile(buffer, {
-            disposition: `attachment; filename="api-response-time-report-${date}.pdf"`
-        });
+
+        res.setHeader('Content-Disposition', `attachment; filename="api-response-time-report-${date}.pdf"`)
+        res.setHeader('Content-Type', 'application/pdf')
+
+        const stream = Readable.from(buffer, { highWaterMark: 1024 * 1024 * 10 })
+
+        stream.pipe(res)
     }
 }
