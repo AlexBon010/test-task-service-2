@@ -2,11 +2,6 @@
 
 **Prerequisites:** Apply Docker Compose from the first microservice first!
 
-```bash
-npm ci
-npm run start:dev
-```
-
 Create a `.env` or `.env.development` file in the project root with the following variables:
 
 ```env
@@ -23,5 +18,13 @@ KAFKA_CONSUMER_GROUP_ID=logs-consumer-group
 
 ELASTICSEARCH_PORT=9200
 ELASTICSEARCH_HOST=localhost
-
 ```
+
+Start the project:
+
+```bash
+npm ci
+npm run start:dev
+```
+
+Hint: API docs available at GET /api
