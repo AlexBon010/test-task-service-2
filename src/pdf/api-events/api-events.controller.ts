@@ -3,7 +3,6 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
 import { ApiEventsService } from './api-events/api-events.service';
-import { Readable } from 'stream';
 
 @ApiTags('API Events')
 @Controller('apiEvents')
@@ -21,8 +20,6 @@ export class ApiEventsController {
         res.setHeader('Content-Disposition', `attachment; filename="api-response-time-report-${date}.pdf"`)
         res.setHeader('Content-Type', 'application/pdf')
 
-        const stream = Readable.from(buffer, { highWaterMark: 1024 * 1024 * 10 })
-
-        stream.pipe(res)
+        res.send(buffer)
     }
 }
