@@ -21,23 +21,9 @@ class EnvironmentVariables {
     @IsNumber()
     APP_PORT: number
 
-
-
     @IsNotEmpty()
     @IsNumber()
-    REDIS_PORT_EXTERNAL: number
-
-    @IsNotEmpty()
-    @IsNumber()
-    REDIS_PORT_INTERNAL: number
-
-    @IsNotEmpty()
-    @IsString()
-    REDIS_PASSWORD: string
-
-    @IsNotEmpty()
-    @IsString()
-    REDIS_USERNAME: string
+    REDIS_PORT: number
 
     @IsNotEmpty()
     @IsString()
@@ -45,11 +31,7 @@ class EnvironmentVariables {
 
     @IsNotEmpty()
     @IsNumber()
-    KAFKA_PORT_EXTERNAL: number
-
-    @IsNotEmpty()
-    @IsNumber()
-    KAFKA_PORT_INTERNAL: number
+    KAFKA_PORT: number
 
     @IsNotEmpty()
     @IsString()
@@ -57,11 +39,19 @@ class EnvironmentVariables {
 
     @IsNotEmpty()
     @IsString()
-    KAFKA_USERNAME: string
+    KAFKA_LOGS_CLIENT: string
 
     @IsNotEmpty()
     @IsString()
-    KAFKA_PASSWORD: string
+    KAFKA_CONSUMER_GROUP_ID: string
+
+    @IsNotEmpty()
+    @IsNumber()
+    ELASTICSEARCH_PORT: number
+
+    @IsNotEmpty()
+    @IsString()
+    ELASTICSEARCH_HOST: string
 }
 
 export function validate(config: Record<string, unknown>) {

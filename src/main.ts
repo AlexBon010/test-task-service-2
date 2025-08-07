@@ -19,7 +19,8 @@ async function bootstrap() {
   const isDev = configService.get<string>('APP_MODE') === 'development'
 
   const kafkaHost = configService.get<string>('KAFKA_HOST')!
-  const kafkaPort = configService.get<number>('KAFKA_PORT_EXTERNAL')!
+  const kafkaPort = configService.get<number>('KAFKA_PORT')!
+  const kafkaConsumerGroupId = configService.get<string>('KAFKA_CONSUMER_GROUP_ID')!
 
   app.enableCors({
     origin: '*',
@@ -32,7 +33,7 @@ async function bootstrap() {
         brokers: [`${kafkaHost}:${kafkaPort}`],
       },
       consumer: {
-        groupId: 'logs-consumer-group',
+        groupId: kafkaConsumerGroupId,
       },
     },
   })
@@ -69,8 +70,6 @@ async function bootstrap() {
     SwaggerModule.setup('api', app, documentFactory)
   }
 
-
-
   await Promise.all([
     app.startAllMicroservices(),
     app.listen(port, () => {
@@ -79,4 +78,4 @@ async function bootstrap() {
   ])
 
 }
-bootstrap()
+void bootstrap()
